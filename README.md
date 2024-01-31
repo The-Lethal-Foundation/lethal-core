@@ -1,49 +1,36 @@
 # Lethal Core
 
-A core module for lethal mod manager.
+A core module library for lethal mod manager.
 
 ## Core modules
+
+1. Api:
+
+   - Module for making requests to the external services.
+   - `tsapi.go` makes requests to thunderstore api.
 
 1. Config:
 
    - Keeps track of the Lethal Mod Manager config.
-   - Can save / load / initialize the config.
+   - `config.go` Initializes / Saves / Loads the config file.
 
-2. Filesystem:
+1. Filesystem:
 
    - Makes sure the required file system is in place, all folders created.
-   - Initializes the file system required for the mod manager to run.
+   - `filesystem.go` Initializes the required directories for mod manager. A source of the defaul path for other modules.
 
-3. Modmanager:
+1. Modmanager:
+
+   - Takes care of installing / deleting / updating mods.
    - `bepinex.go` Makes sure that you have the latest version of BepInEx installed.
+   - `modmanager.go` Installs / Updates / Deletes mods.
+   - `unzipmod.go` Takes care of unzipping a mod zip into the plugins directory, and merging files.
 
-## Project File Structure
+1. Profile:
 
-```
-LethalModManager/
-├── cmd/
-│ └── lethalmodmanager/
-│   └── main.go # Main application entry point.
-├── pkg/
-│ ├── config/
-│ │ ├── config.go # Functions for managing the JSON config.
-│ │ └── config_test.go # Tests for config functions.
-│ ├── filesystem/
-│ │ ├── filesystem.go # Functions for handling file operations.
-│ │ └── filesystem_test.go # Tests for file operations.
-│ ├── modmanager/
-│ │ ├── modmanager.go # Core mod management functions.
-│ │ └── modmanager_test.go # Tests for mod management.
-│ ├── profile/
-│ │ ├── profile.go # Functions for managing user profiles.
-│ │ └── profile_test.go # Tests for profile management.
-│ ├── api/
-│ │ ├── api.go # Functions to interact with mod APIs.
-│ │ └── api_test.go # Tests for API interactions.
-│ └── utils/
-│   ├── utils.go # Utility functions.
-│   └── utils_test.go # Tests for utility functions.
-├── .gitignore
-├── go.mod
-└── README.md
-```
+   - Takes care of creating, deleting, renaming profiles.
+     `profile.go` Profile interractions + installing the initial BepInEx into the profile.
+
+1. Utils:
+   - Random utilities
+   - `game_launcher.go` Takes care of launching the actual game profile.

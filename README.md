@@ -7,7 +7,7 @@ A core module library for lethal mod manager.
 1. Api:
 
    - Module for making requests to the external services.
-   - `tsapi.go` makes requests to thunderstore api.
+   - `tsapi.go` makes requests to thunderstore api for checking mod versions / downloading mod packages.
 
 1. Config:
 

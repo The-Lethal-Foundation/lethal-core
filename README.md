@@ -1,4 +1,4 @@
-# Lethal Core
+# ✨Lethal Core
 
 A core module library for lethal mod manager.
 
@@ -29,7 +29,7 @@ A core module library for lethal mod manager.
 1. Profile:
 
    - Takes care of creating, deleting, renaming profiles.
-     `profile.go` Profile interractions + installing the initial BepInEx into the profile.
+   - `profile.go` Profile interractions + installing the initial BepInEx into the profile.
 
 1. Utils:
    - Random utilities

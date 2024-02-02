@@ -20,7 +20,6 @@ func InitializeStructure() error {
 	basePath := GetDefaultPath()
 
 	requiredDirs := []string{
-		"Profiles",
 		"Caches",
 		"LethalCompany",
 	}
@@ -52,7 +51,6 @@ func createDirIfNotExist(dirPath string) error {
 func IsFileSystemSetUp() (bool, error) {
 	basePath := GetDefaultPath()
 	requiredDirs := []string{
-		"Profiles",
 		"Caches",
 		"LethalCompany",
 	}

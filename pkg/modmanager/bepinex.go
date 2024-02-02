@@ -42,6 +42,7 @@ func FetchLatestBepInExVersion() (string, error) {
 }
 
 // DownloadAndCacheBepInEx downloads and caches the latest BepInEx release.
+// Returns the path to the downloaded zip file.
 func DownloadAndCacheBepInEx(basePath string, version string) (string, error) {
 	cachePath := filepath.Join(basePath, bepInExCacheDir)
 	if err := os.MkdirAll(cachePath, 0755); err != nil {

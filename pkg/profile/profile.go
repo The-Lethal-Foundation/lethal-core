@@ -1,7 +1,6 @@
 package profile
 
 import (
-	"io"
 	"os"
 	"path/filepath"
 
@@ -24,8 +23,13 @@ func CreateProfile(profileName string) error {
 		return err
 	}
 
-	// create plugins dir at profilePath/BepInEx/plugins
-	return copyDefaultConfig(profilePath)
+	// Create a "plugins" dir in BepInEx
+	pluginsPath := filepath.Join(profilePath, "BepInEx", "plugins")
+	if err := os.Mkdir(pluginsPath, 0755); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 // DeleteProfile deletes an existing profile.
@@ -39,30 +43,4 @@ func RenameProfile(oldName, newName string) error {
 	oldPath := filepath.Join(filesystem.GetDefaultPath(), "LethalCompany", ProfilesDirName, oldName)
 	newPath := filepath.Join(filesystem.GetDefaultPath(), "LethalCompany", ProfilesDirName, newName)
 	return os.Rename(oldPath, newPath)
-}
-
-// copyDefaultConfig copies the default BepInEx configuration file into the profile.
-func copyDefaultConfig(profilePath string) error {
-	configDir := filepath.Join(profilePath, "BepInEx", "config")
-	if err := os.MkdirAll(configDir, 0755); err != nil {
-		return err
-	}
-
-	defaultConfigPath := filepath.Join("..", "..", "assets", "BepInEx.cfg")
-	destConfigPath := filepath.Join(configDir, "BepInEx.cfg")
-
-	input, err := os.Open(defaultConfigPath)
-	if err != nil {
-		return err
-	}
-	defer input.Close()
-
-	output, err := os.Create(destConfigPath)
-	if err != nil {
-		return err
-	}
-	defer output.Close()
-
-	_, err = io.Copy(output, input)
-	return err
 }

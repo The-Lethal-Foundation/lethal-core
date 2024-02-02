@@ -55,7 +55,7 @@ func InstallMod(profileName, modAuthor, modName string) error {
 	}
 
 	// Unzip the mod to the profile folder.
-	finalModPath := filepath.Join(filesystem.GetDefaultPath(), "profiles", profileName, "BepInEx", "plugins", fmt.Sprintf("%s-%s-%s", modAuthor, modName, modVersion))
+	finalModPath := filepath.Join(filesystem.GetDefaultPath(), "LethalCompany", "profiles", profileName, "BepInEx", "plugins", fmt.Sprintf("%s-%s-%s", modAuthor, modName, modVersion))
 	err = UnzipMod(zipName, finalModPath)
 	if err != nil {
 		return fmt.Errorf("error unzipping mod: %w", err)
@@ -100,7 +100,7 @@ func installDependencies(profileName string, mod ModDetails) error {
 
 // isLocalModExists checks if the local mod exists in the specified profile.
 func isLocalModExists(profileName, modAuthor, modName, modVersion string) (bool, error) {
-	modPath := filepath.Join(filesystem.GetDefaultPath(), "profiles", profileName, "BepInEx", "plugins", modName)
+	modPath := filepath.Join(filesystem.GetDefaultPath(), "LethalCompany", "profiles", profileName, "BepInEx", "plugins", modName)
 
 	// Reading the directory content
 	files, err := os.ReadDir(modPath)
@@ -140,7 +140,7 @@ func isLocalModOutdated(profileName, modAuthor, modName, modVersion string) (boo
 // DeleteMod deletes a mod.
 func DeleteMod(profileName, modAuthor, modName, modVersion string) error {
 
-	modDirPath := filepath.Join(filesystem.GetDefaultPath(), "profiles", profileName, "BepInEx", "plugins", fmt.Sprintf("%s-%s-%s", modAuthor, modName, modVersion))
+	modDirPath := filepath.Join(filesystem.GetDefaultPath(), "LethalCompany", "profiles", profileName, "BepInEx", "plugins", fmt.Sprintf("%s-%s-%s", modAuthor, modName, modVersion))
 
 	err := os.RemoveAll(modDirPath)
 	if err != nil {
@@ -167,7 +167,7 @@ func DisableMod(modName, profileName string) error {
 // ListMods returns a list of all mods.
 func ListMods(profileName string) ([]ModDetails, error) {
 
-	pluginsDir := filepath.Join(filesystem.GetDefaultPath(), "profiles", profileName, "BepInEx", "plugins")
+	pluginsDir := filepath.Join(filesystem.GetDefaultPath(), "LethalCompany", "profiles", profileName, "BepInEx", "plugins")
 
 	// Reading the directory content
 	files, err := os.ReadDir(pluginsDir)

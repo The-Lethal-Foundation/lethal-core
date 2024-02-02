@@ -4,7 +4,6 @@ import (
 	"log"
 
 	"github.com/The-Lethal-Foundation/lethal-core/pkg/filesystem"
-	"github.com/The-Lethal-Foundation/lethal-core/pkg/utils"
 )
 
 func main() {
@@ -13,8 +12,10 @@ func main() {
 		log.Fatal(err)
 	}
 
+	filesystem.InitializeStructure()
+
 	// clone other profiles
-	utils.CloneOtherProfiles(utils.KnownModManagersList)
+	// utils.CloneOtherProfiles(utils.KnownModManagersList)
 
 	log.Println("Done!")
 }

@@ -12,7 +12,7 @@ import (
 const ProfilesDirName = "Profiles"
 
 func CreateProfile(profileName string) error {
-	profilePath := filepath.Join(filesystem.GetDefaultPath(), ProfilesDirName, profileName)
+	profilePath := filepath.Join(filesystem.GetDefaultPath(), "LethalCompany", ProfilesDirName, profileName)
 	if err := os.Mkdir(profilePath, 0755); err != nil {
 		return err
 	}
@@ -30,14 +30,14 @@ func CreateProfile(profileName string) error {
 
 // DeleteProfile deletes an existing profile.
 func DeleteProfile(profileName string) error {
-	profilePath := filepath.Join(filesystem.GetDefaultPath(), ProfilesDirName, profileName)
+	profilePath := filepath.Join(filesystem.GetDefaultPath(), "LethalCompany", ProfilesDirName, profileName)
 	return os.RemoveAll(profilePath)
 }
 
 // RenameProfile renames an existing profile.
 func RenameProfile(oldName, newName string) error {
-	oldPath := filepath.Join(filesystem.GetDefaultPath(), ProfilesDirName, oldName)
-	newPath := filepath.Join(filesystem.GetDefaultPath(), ProfilesDirName, newName)
+	oldPath := filepath.Join(filesystem.GetDefaultPath(), "LethalCompany", ProfilesDirName, oldName)
+	newPath := filepath.Join(filesystem.GetDefaultPath(), "LethalCompany", ProfilesDirName, newName)
 	return os.Rename(oldPath, newPath)
 }
 

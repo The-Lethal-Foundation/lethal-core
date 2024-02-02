@@ -27,7 +27,7 @@ func CloneOtherProfiles(modManagers map[string]string) error {
 
 			// Create the new profile path in the manager's directory
 			profileName := managerName + "-" + profile.Name()
-			newProfilePath := filepath.Join(filesystem.GetDefaultPath(), "Profiles", profileName)
+			newProfilePath := filepath.Join(filesystem.GetDefaultPath(), "LethalCompany", "Profiles", profileName)
 			err := os.MkdirAll(newProfilePath, os.ModePerm)
 			if err != nil {
 				return err

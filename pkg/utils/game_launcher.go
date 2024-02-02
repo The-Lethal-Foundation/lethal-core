@@ -14,7 +14,7 @@ const GameId = "1966720"
 // LaunchGameProfile launches the game with the specified profile.
 func LaunchGameProfile(profile string) error {
 	// Assuming `util.GetProfilePath` resolves the correct profile path.
-	profilePath := filepath.Join(filesystem.GetDefaultPath(), "Profiles", profile)
+	profilePath := filepath.Join(filesystem.GetDefaultPath(), "LethalCompany", "Profiles", profile)
 
 	steamPath := `C:\Program Files (x86)\Steam\steam.exe`
 	args := []string{

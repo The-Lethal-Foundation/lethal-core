@@ -22,6 +22,7 @@ func InitializeStructure() error {
 	requiredDirs := []string{
 		"Profiles",
 		"Caches",
+		"LethalCompany",
 	}
 
 	for _, dir := range requiredDirs {
@@ -53,6 +54,7 @@ func IsFileSystemSetUp() (bool, error) {
 	requiredDirs := []string{
 		"Profiles",
 		"Caches",
+		"LethalCompany",
 	}
 
 	for _, dir := range requiredDirs {

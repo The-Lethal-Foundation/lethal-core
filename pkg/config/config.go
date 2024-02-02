@@ -6,9 +6,12 @@ import (
 	"path/filepath"
 )
 
+// Please don't the config values from inside the package.
+// It's supposed to be used by the main package.
 type Config struct {
 	LastUsedProfile      string `json:"last_used_profile"`
 	CachedBepInExVersion string `json:"cached_bepinex_version"`
+	OtherProfilesCloned  bool   `json:"other_profiles_cloned"`
 }
 
 const ConfigFileName = "config.json"

@@ -5,8 +5,12 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"net/url"
 	"os"
+	"strings"
 	"time"
+
+	"github.com/PuerkitoBio/goquery"
 )
 
 type ModDetailsResponse struct {
@@ -98,4 +102,76 @@ func saveModToFile(body io.Reader) (string, error) {
 	}
 
 	return tmpFile.Name(), nil
+}
+
+type OrderingType string
+
+const (
+	LastUpdated    OrderingType = "last-updated"
+	Newest         OrderingType = "newest"
+	MostDownloaded OrderingType = "most-downloaded"
+	TopRated       OrderingType = "top-rated"
+)
+
+type SectionType string
+
+const (
+	Mods              SectionType = "mods"
+	AssetReplacements SectionType = "asset-replacements"
+	Libraries         SectionType = "libraries"
+	Modpacks          SectionType = "modpacks"
+)
+
+type GlobalModView struct {
+	ModAuthor  string `json:"mod_author"`
+	ModName    string `json:"mod_name"`
+	ModPicture string `json:"mod_picture"`
+}
+
+// GlobalListMods fetches and parses the mod list from Thunderstore.
+func GlobalListMods(ordering OrderingType, sectionType SectionType, query string, page int) ([]GlobalModView, error) {
+	document, err := fetchModsDocument(ordering, sectionType, query, page)
+	if err != nil {
+		return nil, fmt.Errorf("error fetching mods document: %w", err)
+	}
+
+	return parseModsDocument(document), nil
+}
+
+// fetchModsDocument retrieves the HTML document from Thunderstore.
+func fetchModsDocument(ordering OrderingType, sectionType SectionType, query string, page int) (*goquery.Document, error) {
+	encodedQuery := url.QueryEscape(query)
+	reqUrl := fmt.Sprintf("https://thunderstore.io/c/lethal-company/?q=%s&ordering=%s&section=%s&page=%d", encodedQuery, ordering, sectionType, page)
+
+	response, err := http.Get(reqUrl)
+	if err != nil {
+		return nil, err
+	}
+	defer response.Body.Close()
+
+	if response.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("error fetching data: %s", response.Status)
+	}
+
+	return goquery.NewDocumentFromReader(response.Body)
+}
+
+// parseModsDocument parses the goquery document to extract mod information.
+func parseModsDocument(document *goquery.Document) []GlobalModView {
+	var mods []GlobalModView
+	document.Find("div.col-md-4").Each(func(index int, element *goquery.Selection) {
+		modName := element.Find("div > h5").Text()
+		modPicture, _ := element.Find("div > a > img").Attr("src")
+		modAuthor := strings.Trim(element.Find("div:nth-child(2) > div:nth-child(3) > a").Text(), " \n")
+
+		if modName != "" {
+			mods = append(mods, GlobalModView{
+				ModAuthor:  modAuthor,
+				ModName:    modName,
+				ModPicture: modPicture,
+			})
+		}
+	})
+
+	return mods
 }

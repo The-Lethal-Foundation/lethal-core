@@ -4,7 +4,7 @@ import (
 	"log"
 
 	"github.com/The-Lethal-Foundation/lethal-core/pkg/filesystem"
-	"github.com/The-Lethal-Foundation/lethal-core/pkg/modmanager"
+	"github.com/The-Lethal-Foundation/lethal-core/pkg/utils"
 )
 
 func main() {
@@ -13,19 +13,8 @@ func main() {
 		log.Fatal(err)
 	}
 
-	// err = modmanager.InstallMod("Test", "Sligili", "More_Emotes")
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-
-	mods, err := modmanager.ListMods("Test")
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	for _, mod := range mods {
-		log.Println(mod)
-	}
+	// clone other profiles
+	utils.CloneOtherProfiles(utils.KnownModManagersList)
 
 	log.Println("Done!")
 }

@@ -19,8 +19,9 @@ type ModManifest struct {
 }
 
 type ModDetails struct {
-	Author   string      `json:"author"`
-	Manifest ModManifest `json:"manifest"`
+	Author     string      `json:"author"`
+	ModDirName string      `json:"mod_dir_name"`
+	Manifest   ModManifest `json:"manifest"`
 }
 
 // InstallMod installs or updates the specified mod in the given profile.
@@ -189,6 +190,7 @@ func ListMods(profileName string) ([]ModDetails, error) {
 				manifestPath := filepath.Join(pluginsDir, dirName, "manifest.json")
 				if _, err := os.Stat(manifestPath); err == nil {
 					var modDetail ModDetails
+					modDetail.ModDirName = dirName
 					modDetail.Author = strings.Split(dirName, "-")[0]
 					modDetail.Manifest, err = ReadModManifest(manifestPath)
 					if err != nil {

@@ -1,6 +1,8 @@
 package modmanager
 
 import (
+	"bufio"
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"os"
@@ -215,8 +217,24 @@ func ReadModManifest(manifestPath string) (ModManifest, error) {
 	}
 	defer manifestFile.Close()
 
+	// Create a buffered reader to check for the BOM.
+	reader := bufio.NewReader(manifestFile)
+	bom := []byte{0xEF, 0xBB, 0xBF}
+	buffer, err := reader.Peek(3) // Read the first three bytes to check for BOM
+	if err != nil {
+		return modManifest, fmt.Errorf("error reading manifest file: %w", err)
+	}
+
+	// If BOM is present, advance the reader past it; otherwise, do nothing.
+	if bytes.Equal(buffer, bom) {
+		_, err := reader.Discard(3)
+		if err != nil {
+			return modManifest, fmt.Errorf("error discarding BOM: %w", err)
+		}
+	}
+
 	// Decode the manifest file.
-	if err := json.NewDecoder(manifestFile).Decode(&modManifest); err != nil {
+	if err := json.NewDecoder(reader).Decode(&modManifest); err != nil {
 		return modManifest, fmt.Errorf("error decoding manifest file: %w", err)
 	}
 

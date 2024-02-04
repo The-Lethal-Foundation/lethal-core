@@ -4,7 +4,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/The-Lethal-Foundation/lethal-core/pkg/config"
+	"github.com/The-Lethal-Foundation/lethal-core/config"
 )
 
 const defaultBasePath = "Lethal Foundation/Lethal Mod Manager"

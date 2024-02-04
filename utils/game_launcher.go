@@ -6,7 +6,7 @@ import (
 	"os/exec"
 	"path/filepath"
 
-	"github.com/The-Lethal-Foundation/lethal-core/pkg/filesystem"
+	"github.com/The-Lethal-Foundation/lethal-core/filesystem"
 )
 
 const GameId = "1966720"

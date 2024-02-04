@@ -7,8 +7,8 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/The-Lethal-Foundation/lethal-core/pkg/api"
-	"github.com/The-Lethal-Foundation/lethal-core/pkg/filesystem"
+	"github.com/The-Lethal-Foundation/lethal-core/api"
+	"github.com/The-Lethal-Foundation/lethal-core/filesystem"
 )
 
 type ModManifest struct {

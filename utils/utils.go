@@ -4,7 +4,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/The-Lethal-Foundation/lethal-core/pkg/filesystem"
+	"github.com/The-Lethal-Foundation/lethal-core/filesystem"
 	"github.com/otiai10/copy"
 )
 

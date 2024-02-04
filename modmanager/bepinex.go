@@ -10,8 +10,8 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/The-Lethal-Foundation/lethal-core/pkg/config"
-	"github.com/The-Lethal-Foundation/lethal-core/pkg/filesystem"
+	"github.com/The-Lethal-Foundation/lethal-core/config"
+	"github.com/The-Lethal-Foundation/lethal-core/filesystem"
 )
 
 // BepInExRelease represents the structure of a GitHub release.

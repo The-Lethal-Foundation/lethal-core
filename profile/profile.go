@@ -4,8 +4,8 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/The-Lethal-Foundation/lethal-core/pkg/filesystem"
-	"github.com/The-Lethal-Foundation/lethal-core/pkg/modmanager"
+	"github.com/The-Lethal-Foundation/lethal-core/filesystem"
+	"github.com/The-Lethal-Foundation/lethal-core/modmanager"
 )
 
 const ProfilesDirName = "Profiles"

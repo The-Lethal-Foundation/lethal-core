@@ -141,9 +141,9 @@ func isLocalModOutdated(profileName, modAuthor, modName, modVersion string) (boo
 }
 
 // DeleteMod deletes a mod.
-func DeleteMod(profileName, modAuthor, modName, modVersion string) error {
+func DeleteMod(profileName, modDirName string) error {
 
-	modDirPath := filepath.Join(filesystem.GetDefaultPath(), "LethalCompany", "Profiles", profileName, "BepInEx", "plugins", fmt.Sprintf("%s-%s-%s", modAuthor, modName, modVersion))
+	modDirPath := filepath.Join(filesystem.GetDefaultPath(), "LethalCompany", "Profiles", profileName, "BepInEx", "plugins", modDirName)
 
 	err := os.RemoveAll(modDirPath)
 	if err != nil {

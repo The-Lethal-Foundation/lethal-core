@@ -44,3 +44,23 @@ func RenameProfile(oldName, newName string) error {
 	newPath := filepath.Join(filesystem.GetDefaultPath(), "LethalCompany", ProfilesDirName, newName)
 	return os.Rename(oldPath, newPath)
 }
+
+// ListProfiles returns a list of all profiles.
+func ListProfiles() ([]string, error) {
+	profilesPath := filepath.Join(filesystem.GetDefaultPath(), "LethalCompany", ProfilesDirName)
+	dirEntries, err := os.ReadDir(profilesPath)
+	if err != nil {
+		return nil, err
+	}
+
+	var outProfiles []string
+	for _, entry := range dirEntries {
+		if !entry.IsDir() {
+			continue
+		}
+
+		outProfiles = append(outProfiles, entry.Name())
+	}
+
+	return outProfiles, nil
+}

@@ -1,8 +1,12 @@
 package utils
 
 import (
+	"fmt"
+	"net/url"
 	"os"
+	"path"
 	"path/filepath"
+	"strings"
 
 	"github.com/The-Lethal-Foundation/lethal-core/filesystem"
 	"github.com/otiai10/copy"
@@ -43,4 +47,28 @@ func CloneOtherProfiles(modManagers map[string]string) error {
 	}
 
 	return nil
+}
+
+// Retusn mod author and name from the Thunderstore mod URL.
+func ParseThunderstoreModUrl(modUrl string) (string, string, error) {
+
+	// Remove the trailing slash if exists
+	modUrl = strings.TrimSuffix(modUrl, "/")
+
+	// Parse the URL
+	parsedUrl, err := url.Parse(modUrl)
+	if err != nil {
+		return "", "", fmt.Errorf("error parsing URL: %w", err)
+	}
+
+	// Split the path into segments
+	segments := strings.Split(path.Clean(parsedUrl.Path), "/")[1:]
+
+	// Assuming the URL format is like https://thunderstore.io/c/lethal-company/p/namespace/modname
+	// and that there are at least 5 segments ("/c/lethal-company/p/namespace/modname")
+	if len(segments) < 5 {
+		return "", "", fmt.Errorf("invalid mod URL format")
+	}
+
+	return segments[len(segments)-2], segments[len(segments)-1], nil
 }

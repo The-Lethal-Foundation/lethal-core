@@ -11,6 +11,7 @@ import (
 
 	"github.com/The-Lethal-Foundation/lethal-core/api"
 	"github.com/The-Lethal-Foundation/lethal-core/filesystem"
+	"github.com/The-Lethal-Foundation/lethal-core/utils"
 )
 
 type ModManifest struct {
@@ -26,23 +27,37 @@ type ModDetails struct {
 	Manifest   ModManifest `json:"manifest"`
 }
 
+func InstallModFromUrl(profile, modUrl string) error {
+	modAuthor, modTitle, err := utils.ParseThunderstoreModUrl(modUrl)
+	if err != nil {
+		return fmt.Errorf("error parsing mod name: %w", err)
+	}
+
+	err = InstallMod(profile, modAuthor, modTitle)
+	if err != nil {
+		return fmt.Errorf("error installing mod: %w", err)
+	}
+
+	return nil
+}
+
 // InstallMod installs or updates the specified mod in the given profile.
-func InstallMod(profileName, modAuthor, modName string) error {
+func InstallMod(profileName, modAuthor, modTitle string) error {
 
 	// Retrieve the latest mod version.
-	modInfo, err := api.FetchModDetails(modAuthor, modName)
+	modInfo, err := api.FetchModDetails(modAuthor, modTitle)
 	if err != nil {
 		return fmt.Errorf("error getting mod info: %w", err)
 	}
 	modVersion := modInfo.LatestVersion
 
 	// Check if the mod already exists or if the version is outdated.
-	exists, err := isLocalModExists(profileName, modAuthor, modName, modVersion)
+	exists, err := isLocalModExists(profileName, modAuthor, modTitle, modVersion)
 	if err != nil {
 		return fmt.Errorf("error checking if mod exists: %w", err)
 	}
 
-	outdated, err := isLocalModOutdated(profileName, modAuthor, modName, modVersion)
+	outdated, err := isLocalModOutdated(profileName, modAuthor, modTitle, modVersion)
 	if err != nil {
 		return fmt.Errorf("error checking if mod is outdated: %w", err)
 	}
@@ -52,13 +67,13 @@ func InstallMod(profileName, modAuthor, modName string) error {
 	}
 
 	// Download the mod to a temporary folder.
-	zipName, err := api.DownloadModPackage(modAuthor, modName, modVersion)
+	zipName, err := api.DownloadModPackage(modAuthor, modTitle, modVersion)
 	if err != nil {
 		return fmt.Errorf("error downloading mod: %w", err)
 	}
 
 	// Unzip the mod to the profile folder.
-	finalModPath := filepath.Join(filesystem.GetDefaultPath(), "LethalCompany", "profiles", profileName, "BepInEx", "plugins", fmt.Sprintf("%s-%s-%s", modAuthor, modName, modVersion))
+	finalModPath := filepath.Join(filesystem.GetDefaultPath(), "LethalCompany", "profiles", profileName, "BepInEx", "plugins", fmt.Sprintf("%s-%s-%s", modAuthor, modTitle, modVersion))
 	err = UnzipMod(zipName, finalModPath)
 	if err != nil {
 		return fmt.Errorf("error unzipping mod: %w", err)
